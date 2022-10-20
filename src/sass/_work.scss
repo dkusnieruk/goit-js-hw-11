@@ -11,7 +11,8 @@
 .info {
     display:flex;
     text-align:center;
-    margin:20px;
+    justify-content: center;
+   
 }
 
 .info-item{
@@ -22,6 +23,7 @@
 .gallery{
     display:flex;
     flex-wrap: wrap;
+    justify-content: space-evenly;
 
 }
 
@@ -31,4 +33,5 @@ img{
 }
 .photo-card{
     margin:5px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
