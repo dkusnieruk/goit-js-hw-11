@@ -27,7 +27,17 @@ getButton.addEventListener(`click`, async (event)=>{
     .then( data =>{
         console.log(data);
         if (data.length ===0){
-            Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.");
+            Notiflix.Notify.warning(
+                "Sorry, there are no images matching your search query. Please try again.",
+                {
+                width:`500px`,
+                useFontAwesome: true,
+                warning: {
+                    background: `red`,
+                    textColor:`white`,
+                }
+                },
+              )
         } else {   
       for (let el=0; el<data.length; el++){
         options += `<div class="photo-card">
