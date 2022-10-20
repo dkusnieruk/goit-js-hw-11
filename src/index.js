@@ -8,6 +8,8 @@ console.log(getGallery);
 getGallery.value = `Stefi`
 const getInput = document.querySelector(`input`);
 let inputValue;
+
+
 getInput.addEventListener(`input`, (event)=>{
     inputValue = event.target.value;
     console.log(inputValue);
@@ -20,9 +22,10 @@ const getButton =document.querySelector(`button`);
 getButton.addEventListener(`click`, async (event)=>{
     event.preventDefault();
     let options="";
-    let counter;
-    await axios.get(`https://pixabay.com/api/?key=${API_KEY}&q=${inputValue}&image_type=photo&per_page=40&page=${counter}`)
+    
+    await axios.get(`https://pixabay.com/api/?key=${API_KEY}&q=${inputValue}&image_type=photo&per_page=40&page=1`)
     .then( response=>{
+        
         return response.data.hits
     })
     .then( data =>{
@@ -72,10 +75,8 @@ getButton.addEventListener(`click`, async (event)=>{
           counter++
           console.log(counter);
         })
-
     }
-      
-   
+     
     })
 
     .catch(error=>{
