@@ -20,7 +20,8 @@ const getButton =document.querySelector(`button`);
 getButton.addEventListener(`click`, async (event)=>{
     event.preventDefault();
     let options="";
-    await axios.get(`https://pixabay.com/api/?key=${API_KEY}&q=${inputValue}&image_type=photo`)
+    let counter;
+    await axios.get(`https://pixabay.com/api/?key=${API_KEY}&q=${inputValue}&image_type=photo&per_page=40&page=${counter}`)
     .then( response=>{
         return response.data.hits
     })
@@ -59,8 +60,20 @@ getButton.addEventListener(`click`, async (event)=>{
       </div>`
       }
      getGallery.innerHTML = options;
-     console.log(getGallery);
-        }
+
+     let getButton2 = document.createElement(`button`);
+        getButton2.innerText ="Load more";
+        getButton2.type= `button`;
+        getButton2.setAttribute(`class`, `load-more`);
+        document.body.appendChild(getButton2);
+
+        let counter=0;
+        getButton2.addEventListener(`click`, (event)=>{
+          counter++
+          console.log(counter);
+        })
+
+    }
       
    
     })
