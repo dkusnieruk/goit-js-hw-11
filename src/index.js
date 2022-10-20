@@ -3,6 +3,7 @@ import Notiflix from 'notiflix';
 //comment to save
 const API_KEY = '30699126-723906f358b47efc488aca811';
 const getGallery= document.querySelectorAll(`div`)[1];
+
 console.log(getGallery);
 getGallery.value = `Stefi`
 const getInput = document.querySelector(`input`);
@@ -15,37 +16,43 @@ getInput.addEventListener(`input`, (event)=>{
 });
 
 const getButton =document.querySelector(`button`);
-let options;
+
 getButton.addEventListener(`click`, async (event)=>{
     event.preventDefault();
-    Notiflix.Notify.failure('Qui timide rogat docet negare');
+    let options="";
     await axios.get(`https://pixabay.com/api/?key=${API_KEY}&q=${inputValue}&image_type=photo`)
     .then( response=>{
         return response.data.hits
     })
     .then( data =>{
-
         console.log(data);
+        if (data.length ===0){
+            Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.");
+        } else {   
       for (let el=0; el<data.length; el++){
         options += `<div class="photo-card">
-        <img src="${data[el].previewURL}" alt="" loading="lazy" />
+        <img src="${data[el].webformatURL}" alt="${data[el].tags}" loading="lazy" />
         <div class="info">
           <p class="info-item">
-            <b>Likes: ${data[el].likes}</b>
+            <b>Likes:<br> ${data[el].likes}</b>
           </p>
           <p class="info-item">
-            <b>Views: ${data[el].views}</b>
+            <b>Views:<br> ${data[el].views}</b>
           </p>
           <p class="info-item">
-            <b>Comments: ${data[el].comments}</b>
+            <b>Comments:<br> ${data[el].comments}</b>
           </p>
           <p class="info-item">
-            <b>Downloads: ${data[el].downloads}</b>
+            <b>Downloads:<br> ${data[el].downloads}</b>
           </p>
         </div>
       </div>`
       }
-      getGallery.innerHTML = options;
+     getGallery.innerHTML = options;
+     console.log(getGallery);
+        }
+      
+   
     })
 
     .catch(error=>{
