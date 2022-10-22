@@ -30,18 +30,9 @@ getButton.addEventListener(`click`, async (event)=>{
     let options="";
     
     let counter =1;
-    getButton2.style.display=`block`;
     
-    getButton2.addEventListener(`click`, (event)=>{
-    
-    
-    counter++;
-    
-    localStorage.setItem(`counter`, counter*5)
-    console.log(counter);
-    })
-    
-    await axios.get(`https://pixabay.com/api/?key=${API_KEY}&q=${inputValue}&image_type=photo&per_page=${localStorage.getItem(`counter`)}&page=1`)
+        
+    await axios.get(`https://pixabay.com/api/?key=${API_KEY}&q=${inputValue}&image_type=photo&per_page=40&page=${counter}`)
     .then( response=>{
             
 
@@ -53,6 +44,7 @@ getButton.addEventListener(`click`, async (event)=>{
         console.log(data);
 
         if (data.length ===0){
+            getButton2.style.display =`none`;
             Notiflix.Notify.warning(
                 "Sorry, there are no images matching your search query. Please try again.",
                 {
@@ -66,6 +58,7 @@ getButton.addEventListener(`click`, async (event)=>{
               )
             getGallery.style.display=`none`;
         } else {  
+            getButton2.style.display=`block`;
             getGallery.style.display=`flex`;
             Notiflix.Notify.success(`Hooray ! We found a total of ${localStorage.getItem(`totalHits`)}  hits`); 
       
@@ -92,35 +85,88 @@ getButton.addEventListener(`click`, async (event)=>{
       }
      getGallery.innerHTML = options;
      
-    //  let gallery2 = new SimpleLightbox('.gallery a',{captionsData:`alt`,captionDelay:250, swipeClose:true,});
-    //  gallery.on('show.simplelightbox', function () {
-         
-    //  })
-    //  let getButton2 = document.createElement(`button`);
-    //     getButton2.innerText ="Load more";
-    //     getButton2.type= `button`;
-    //     getButton2.setAttribute(`class`, `load-more`);
-    //     document.body.appendChild(getButton2);
-
-        // let counter=0;
-        // getButton2.addEventListener(`click`, (event)=>{
-        //   counter++
-        //   console.log(counter);
-            
-        // })
-        
     }
-    let gallery = new SimpleLightbox('.gallery a',{captionsData:`alt`,captionDelay:250, swipeClose:true,});
-    gallery.on('show.simplelightbox', function () {
-        
-    })
-
-    
     })
 
     .catch(error=>{
         console.log(error);
     })
+    let gallery = new SimpleLightbox('.gallery a',{captionsData:`alt`,captionDelay:250, swipeClose:true,});
+    gallery.on('show.simplelightbox', function () {
+    gallery.refresh();        
+    })
+
+});
+
+let counter = 1;
+getButton2.addEventListener(`click`, (event)=>{
+    event.preventDefault();
+    let options="";
+    counter++
+    console.log();
+    getButton2.style.display=`block`;
+        
+    axios.get(`https://pixabay.com/api/?key=${API_KEY}&q=${inputValue}&image_type=photo&per_page=40&page=${counter}`)
+    .then( response=>{
+            
+
+        localStorage.setItem(`totalHits`, response.data.totalHits)
+        return response.data.hits
+        
+    })
+    .then( data =>{
+        console.log(data);
+
+        if (data.length ===0){
+            Notiflix.Notify.warning(
+                "We're sorry, but you've reached the end of search results.",
+                {
+                width:`500px`,
+                useFontAwesome: true,
+                warning: {
+                    background: `red`,
+                    textColor:`white`,
+                }
+                },
+              )
+            getGallery.style.display=`none`;
+        } else {  
+            getGallery.style.display=`flex`;   
+            for (let el=0; el<data.length; el++){
+        options += `<div class="photo-card">
+        <a href =${data[el].largeImageURL}>
+        <img src="${data[el].webformatURL}" alt="${data[el].tags}" loading="lazy" />
+        </a>
+        <div class="info">
+          <p class="info-item">
+            <b>Likes:<br> ${data[el].likes}</b>
+          </p>
+          <p class="info-item">
+            <b>Views:<br> ${data[el].views}</b>
+          </p>
+          <p class="info-item">
+            <b>Comments:<br> ${data[el].comments}</b>
+          </p>
+          <p class="info-item">
+            <b>Downloads:<br> ${data[el].downloads}</b>
+          </p>
+        </div>
+      </div>`
+      }
+     getGallery.innerHTML += options;
+     
+    }
+    let gallery = new SimpleLightbox('.gallery a',{captionsData:`alt`,captionDelay:250, swipeClose:true,});
+    gallery.on('show.simplelightbox', function () {
+    gallery.refresh();        
+    })
+
+    })
+
+    .catch(error=>{
+        console.log(error);
+    })
+    
 
 });
 
