@@ -7,15 +7,13 @@ const API_KEY = '30699126-723906f358b47efc488aca811';
 const getGallery= document.querySelectorAll(`div`)[1];
 const getButton2= document.getElementsByClassName("load-more")[0];
 
+
 getButton2.style.display= `none`;
 console.log(getButton2);
 console.log(getGallery);
 
 const getInput = document.querySelector(`input`);
 let inputValue;
-
-
-
 
 getInput.addEventListener(`input`, (event)=>{
     inputValue = event.target.value;
@@ -26,23 +24,24 @@ getInput.addEventListener(`input`, (event)=>{
 
 const getButton =document.querySelector(`button`);
 
+
 getButton.addEventListener(`click`, async (event)=>{
     event.preventDefault();
     let options="";
-    let totalHits="";
-    let counter=0;
+    
+    let counter =1;
     getButton2.style.display=`block`;
     
     getButton2.addEventListener(`click`, (event)=>{
     
-    counter++;
-    console.log(counter);
-    localStorage.setItem(`getCounter`,+counter)
-
-})
     
-   
-    await axios.get(`https://pixabay.com/api/?key=${API_KEY}&q=${inputValue}&image_type=photo&per_page=40&page=1`)
+    counter++;
+    
+    localStorage.setItem(`counter`, counter*5)
+    console.log(counter);
+    })
+    
+    await axios.get(`https://pixabay.com/api/?key=${API_KEY}&q=${inputValue}&image_type=photo&per_page=${localStorage.getItem(`counter`)}&page=1`)
     .then( response=>{
             
 
@@ -111,7 +110,7 @@ getButton.addEventListener(`click`, async (event)=>{
         // })
         
     }
-    let gallery2 = new SimpleLightbox('.gallery a',{captionsData:`alt`,captionDelay:250, swipeClose:true,});
+    let gallery = new SimpleLightbox('.gallery a',{captionsData:`alt`,captionDelay:250, swipeClose:true,});
     gallery.on('show.simplelightbox', function () {
         
     })
