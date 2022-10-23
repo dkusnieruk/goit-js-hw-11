@@ -129,7 +129,7 @@ getButton2.addEventListener(`click`, (event)=>{
                 },
               )
             getGallery.style.display=`none`;
-        } else {  
+        }  {  
             getGallery.style.display=`flex`;   
             for (let el=0; el<data.length; el++){
         options += `<div class="photo-card">
