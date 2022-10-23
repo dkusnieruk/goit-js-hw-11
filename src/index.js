@@ -2,35 +2,29 @@ import axios from "axios"
 import Notiflix from 'notiflix';
 import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
-//comment to save
 const API_KEY = '30699126-723906f358b47efc488aca811';
 const getGallery= document.querySelectorAll(`div`)[1];
 const getButton2= document.getElementsByClassName("load-more")[0];
 
 
 getButton2.style.display= `none`;
-console.log(getButton2);
-console.log(getGallery);
 
 const getInput = document.querySelector(`input`);
 let inputValue;
 
 getInput.addEventListener(`input`, (event)=>{
     inputValue = event.target.value;
-    console.log(inputValue);
     return inputValue;
-
 });
 
 const getButton =document.querySelector(`button`);
 
-
+//first event handler search button
 getButton.addEventListener(`click`, async (event)=>{
     event.preventDefault();
     let options="";
-    
     let counter =1;
-    
+    getButton2.style.display=`block`;
         
     await axios.get(`https://pixabay.com/api/?key=${API_KEY}&q=${inputValue}&image_type=photo&per_page=40&page=${counter}`)
     .then( response=>{
@@ -44,7 +38,6 @@ getButton.addEventListener(`click`, async (event)=>{
         console.log(data);
 
         if (data.length ===0){
-            getButton2.style.display =`none`;
             Notiflix.Notify.warning(
                 "Sorry, there are no images matching your search query. Please try again.",
                 {
@@ -58,7 +51,6 @@ getButton.addEventListener(`click`, async (event)=>{
               )
             getGallery.style.display=`none`;
         } else {  
-            getButton2.style.display=`block`;
             getGallery.style.display=`flex`;
             Notiflix.Notify.success(`Hooray ! We found a total of ${localStorage.getItem(`totalHits`)}  hits`); 
       
@@ -91,6 +83,8 @@ getButton.addEventListener(`click`, async (event)=>{
     .catch(error=>{
         console.log(error);
     })
+
+    //simplelightbox
     let gallery = new SimpleLightbox('.gallery a',{captionsData:`alt`,captionDelay:250, swipeClose:true,});
     gallery.on('show.simplelightbox', function () {
     gallery.refresh();        
@@ -99,6 +93,8 @@ getButton.addEventListener(`click`, async (event)=>{
 });
 
 let counter = 1;
+
+//second event handler show more button
 getButton2.addEventListener(`click`, (event)=>{
     event.preventDefault();
     let options="";
@@ -156,6 +152,8 @@ getButton2.addEventListener(`click`, (event)=>{
      getGallery.innerHTML += options;
      
     }
+
+    //simple lightbox refresh
     let gallery = new SimpleLightbox('.gallery a',{captionsData:`alt`,captionDelay:250, swipeClose:true,});
     gallery.on('show.simplelightbox', function () {
     gallery.refresh();        
