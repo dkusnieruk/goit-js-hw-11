@@ -38,6 +38,8 @@ getButton.addEventListener(`click`, async (event)=>{
         console.log(data);
 
         if (data.length ===0){
+            getButton2.style.display=`none`;
+
             Notiflix.Notify.warning(
                 "Sorry, there are no images matching your search query. Please try again.",
                 {
@@ -50,7 +52,8 @@ getButton.addEventListener(`click`, async (event)=>{
                 },
               )
             getGallery.style.display=`none`;
-        } else {  
+        } else {
+              
             getGallery.style.display=`flex`;
             Notiflix.Notify.success(`Hooray ! We found a total of ${localStorage.getItem(`totalHits`)}  hits`); 
       
@@ -100,7 +103,7 @@ getButton2.addEventListener(`click`, (event)=>{
     let options="";
     counter++
     console.log();
-    getButton2.style.display=`block`;
+    getButton2.style.display=`none`;
         
     axios.get(`https://pixabay.com/api/?key=${API_KEY}&q=${inputValue}&image_type=photo&per_page=40&page=${counter}`)
     .then( response=>{
@@ -150,7 +153,8 @@ getButton2.addEventListener(`click`, (event)=>{
       </div>`
       }
      getGallery.innerHTML += options;
-     
+     getButton2.style.display=`block`;
+
     }
 
     //simple lightbox refresh
