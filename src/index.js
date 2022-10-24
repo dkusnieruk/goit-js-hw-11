@@ -77,9 +77,16 @@ getButton.addEventListener(`click`, async (event)=>{
         </div>
       </div>`
       }
-     getGallery.innerHTML = options;
-     getButton2.style.display=`block`;
- 
+
+      getGallery.innerHTML = options;
+      getButton2.style.display=`block`;
+      setTimeout(() => {
+        window.scrollTo({
+            top: 100000,
+            behavior: 'smooth'
+          });
+    
+      }, 1500);
     }
     })
 
@@ -154,7 +161,13 @@ getButton2.addEventListener(`click`, (event)=>{
       }
      getGallery.innerHTML += options;
      getButton2.style.display=`block`;
-
+     setTimeout(() => {
+        window.scrollTo({
+            top: 100000,
+            behavior: 'smooth'
+          });
+    
+      }, 1500); 
     }
 
     //simple lightbox refresh
