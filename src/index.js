@@ -24,7 +24,6 @@ getButton.addEventListener(`click`, async (event)=>{
     event.preventDefault();
     let options="";
     let counter =1;
-    getButton2.style.display=`block`;
         
     await axios.get(`https://pixabay.com/api/?key=${API_KEY}&q=${inputValue}&image_type=photo&per_page=40&page=${counter}`)
     .then( response=>{
@@ -79,7 +78,8 @@ getButton.addEventListener(`click`, async (event)=>{
       </div>`
       }
      getGallery.innerHTML = options;
-     
+     getButton2.style.display=`block`;
+ 
     }
     })
 
