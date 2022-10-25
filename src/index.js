@@ -156,7 +156,7 @@ getButton2.addEventListener(`click`, (event)=>{
      getGallery.innerHTML += options;
      getButton2.style.display=`block`;
       setTimeout(() => {
-        window.scrollBy(0,900)      }, 1500);
+        window.scrollBy(0,700)      }, 1500);
     }
 
     //simple lightbox refresh
